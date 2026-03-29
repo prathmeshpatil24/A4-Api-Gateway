@@ -1,0 +1,32 @@
+server:
+ port: 9094
+spring:
+ application:
+   name: A4-GATEWAY-SERVICE
+ cloud:
+  gateway:
+    routes:
+      - id: user-service
+        uri: lb://A1-USERSERVICE
+        predicates:
+          - Path=/api/users/**
+
+      - id: hotel-service
+        uri: lb://A2-HOTELSERVICE
+        predicates:
+          - Path=/api/hotels/**
+
+      - id: rating-service
+        uri: lb://A3-RATINGSERVICE
+        predicates:
+          - Path=/api/ratings/**
+#           - Path=api/ratings/**,  /....../.....
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:9000/eureka/
+  instance:
+    prefer-ip-address: true
